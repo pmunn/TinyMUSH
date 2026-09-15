@@ -24,7 +24,7 @@ RUN groupadd --gid $GID app
 RUN useradd --uid $UID --gid $GID app
 
 # create the working folder and give the app user ownership before switching to it
-RUN mkdir -p /app && chown app:app /app
+#RUN mkdir -p /app && chown app:app /app
 # become the user
 USER app
 # go to the app working folder
@@ -77,6 +77,8 @@ RUN useradd --uid $UID --gid $GID app
 
 # update packages
 RUN apt-get update
+# install the runtime shared libraries netmush needs (pcre2 + lmdb) and xz for backups
+RUN apt-get --yes install libpcre2-8-0 liblmdb0 xz-utils
 # install less and nano for convenience
 RUN apt-get --yes install less nano
 
@@ -87,9 +89,6 @@ WORKDIR /app
 
 # Copy in the built artifacts, not the build tools or source
 COPY --from=builder /app/. .
-
-# install the runtime shared libraries netmush needs (pcre2 + lmdb) and xz for backups
-RUN apt-get --yes install libpcre2-8-0 liblmdb0 xz-utils
 
 # set the entrypoint to copy the docs and configs files when the destination folder volumes are empty
 COPY entrypoint.sh /entrypoint.sh

@@ -28,4 +28,5 @@ services:
       - ./data/configs:/app/game/configs
       - ./data/docs:/app/game/docs
 
-    restart: unless-stopped
+    # we don't try automatically restarting after a @shutdown
+    #restart: unless-stopped

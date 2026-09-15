@@ -12,8 +12,5 @@ if [ ! -d "/app/game/configs" ] || [ -z "$(ls -A /app/game/configs)" ]; then
     cp -r /app/game/configs-original/* /app/game/configs/
 fi
 
-# runs application in debug mode in the foreground, then stays open after it shuts down
-/app/game/netmush --debug && sleep infinity
-
-# Execute the main application command
-exec "$@"
+# Run the game
+/app/game/netmush --debug
