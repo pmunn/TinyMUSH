@@ -23,6 +23,8 @@ RUN apt-get --yes install less nano git
 RUN groupadd --gid $GID app
 RUN useradd --uid $UID --gid $GID app
 
+# create the working folder and give the app user ownership before switching to it
+RUN mkdir -p /app && chown app:app /app
 # become the user
 USER app
 # go to the app working folder
