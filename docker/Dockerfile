@@ -88,9 +88,8 @@ WORKDIR /app
 # Copy in the built artifacts, not the build tools or source
 COPY --from=builder /app/. .
 
-# copy in the built libraries we have identified so far as being necessary
-COPY --from=builder /usr/lib/x86_64-linux-gnu/liblmdb.so.0 /usr/lib/x86_64-linux-gnu/
-COPY --from=builder /usr/bin/xz /usr/bin/
+# install the runtime shared libraries netmush needs (pcre2 + lmdb) and xz for backups
+RUN apt-get --yes install libpcre2-8-0 liblmdb0 xz-utils
 
 # set the entrypoint to copy the docs and configs files when the destination folder volumes are empty
 COPY entrypoint.sh /entrypoint.sh
